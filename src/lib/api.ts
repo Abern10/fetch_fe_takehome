@@ -101,7 +101,7 @@ export const getDogs = async (dogIds: string[]) : Promise<Dog[]> => {
     return handleResponse(response)
 }
 
-export const matchdog = async (favoriteIds: string[]): Promise<MatchResponse> => {
+export const matchDog = async (favoriteIds: string[]): Promise<MatchResponse> => {
     const response = await fetch(`${API_BASE_URL}/dogs/match`, {
         method: 'POST',
         headers: {
