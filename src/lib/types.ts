@@ -48,7 +48,7 @@ export interface MatchResponse {
 }
 
 // Search parameters interface
-export interface LocationSeachParams {
+export interface LocationSearchParams {
     city?: string;
     state?: string[];
     geoBoundingBox?: {
@@ -66,19 +66,19 @@ export interface LocationSeachParams {
 }
 
 // Location search response interface
-export interface LocationSerachResponse {
+export interface LocationSearchResponse {
     results: Location[];
     total: number;
 }
 
 // Dog search parameters interface
-export interface DogSerachParams {
+export interface DogSearchParams {
     breeds?: string[];
     zipCodes?: string[];
     ageMin?: number;
     ageMax?: number;
     size?: number;
-    from?: number;
+    from?: string;
     sort?: string; 
 }
 

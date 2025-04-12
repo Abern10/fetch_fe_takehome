@@ -3,12 +3,12 @@
 import {
     Dog,
     LoginRequest,
-    DogSerachParams,
+    DogSearchParams,
     DogSearchResponse,
     MatchResponse,
     Location,
-    LocationSeachParams,
-    LocationSerachResponse
+    LocationSearchParams,
+    LocationSearchResponse
 } from './types'
 
 const API_BASE_URL = 'https://frontend-take-home-service.fetch.com';
@@ -18,9 +18,8 @@ const handleResponse = async (response: Response) => {
     if (!response.ok) {
         // Try to parse the error message
         try {
-            const errorData = await response.json()
-            throw new Error(errorData.message || `API error: ${response.status}`);
-
+            const errorData = await response.json();
+            throw new Error(errorData.message);
         } catch (e) {
             throw new Error(`API error: ${response.status}`);
         }
@@ -31,7 +30,6 @@ const handleResponse = async (response: Response) => {
         return null;
     }
     return response.json();
-
 };
 
 // Auth functions
@@ -39,7 +37,7 @@ export const login = async (loginData: LoginRequest): Promise<void> =>{
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'applications/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(loginData),
         credentials: 'include',
@@ -59,19 +57,19 @@ export const logout = async (): Promise<void> => {
 
 // Dog related functions
 export const getBreeds = async (): Promise<string[]> => {
-    const response = await fetch(`${API_BASE_URL}/dog/breeds`, {
+    const response = await fetch(`${API_BASE_URL}/dogs/breeds`, {
         credentials: 'include'
     });
 
     return handleResponse(response)
 };
 
-export const searchDogs =  async (params: DogSerachParams): Promise<DogSearchResponse> => {
+export const searchDogs =  async (params: DogSearchParams): Promise<DogSearchResponse> => {
     const searchParams = new URLSearchParams();
 
     // Handle array parameters diffferently
     if (params.breeds && params.breeds.length > 0) {
-        params.breeds.forEach(zipCode => searchParams.append('sipCodes', zipCode));
+        params.breeds.forEach(breed => searchParams.append('breeds', breed));
     }
 
     // Handle other parameters
@@ -92,7 +90,7 @@ export const getDogs = async (dogIds: string[]) : Promise<Dog[]> => {
     const response = await fetch(`${API_BASE_URL}/dogs`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'applications/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(dogIds),
         credentials: 'include',
@@ -118,7 +116,7 @@ export const getLocations = async (zipCodes: string[]): Promise<Location[]> => {
     const response = await fetch(`${API_BASE_URL}/locations`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'applications/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(zipCodes),
         credentials: 'include',
@@ -127,7 +125,7 @@ export const getLocations = async (zipCodes: string[]): Promise<Location[]> => {
     return handleResponse(response);
 }
 
-export const searchLocations = async (params: LocationSeachParams): Promise<LocationSerachResponse> => {
+export const searchLocations = async (params: LocationSearchParams): Promise<LocationSearchResponse> => {
     const response = await fetch(`${API_BASE_URL}/locations/search`, {
         method: 'POST',
         headers: {
