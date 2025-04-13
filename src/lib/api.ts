@@ -33,18 +33,28 @@ const handleResponse = async (response: Response) => {
 };
 
 // Auth functions
-export const login = async (loginData: LoginRequest): Promise<void> =>{
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+export const login = async (loginData: LoginRequest): Promise<void> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(loginData),
         credentials: 'include',
-    });
-
-    return handleResponse(response)
-};
+      });
+      
+      if (!response.ok) {
+        // Try to parse error message from the response
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Login failed with status: ${response.status}`);
+      }
+            return;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  };
 
 export const logout = async (): Promise<void> => {
     const response = await fetch(`${API_BASE_URL}/auth/logout`, {
