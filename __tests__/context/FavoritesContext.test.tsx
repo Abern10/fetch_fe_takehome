@@ -1,4 +1,5 @@
-// __tests__/context/FavoritesContext.test.tsx
+// FavoritesContext.test.tsx
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { FavoritesProvider, useFavorites } from '@/context/FavoritesContext';
@@ -82,7 +83,6 @@ jest.mock('@/context/FavoritesContext', () => {
 
 describe('FavoritesContext', () => {
   it('provides empty favorites by default', () => {
-    // Mock the hook implementation for this specific test
     const mockContext: FavoritesContextType = {
       favorites: [],
       favoriteIds: new Set<string>(),
