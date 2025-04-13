@@ -1,9 +1,17 @@
-import type { NextConfig } from "next";
+// next.config.ts
+
+import { NextConfig } from 'next';
 
 const config: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['frontend-take-home.fetch.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'frontend-take-home.fetch.com',
+        pathname: '/dog-images/**',
+      },
+    ],
   },
 };
 
