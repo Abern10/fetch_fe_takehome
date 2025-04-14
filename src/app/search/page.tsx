@@ -49,7 +49,7 @@ export default function SearchPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
 
-  // Add retryCount state
+  // RetryCount state
   const [retryCount, setRetryCount] = useState(0);
 
   // Handle logout
@@ -59,7 +59,6 @@ export default function SearchPage() {
       router.push('/');
     } catch (err) {
       console.error('Logout error:', err);
-      // Even if logout fails, redirect to login
       router.push('/');
     }
   };
@@ -104,7 +103,6 @@ export default function SearchPage() {
       setNextCursor(nextPageCursor);
       setPrevCursor(prevPageCursor);
 
-      // If we have a next cursor, store it in our cache for the next page
       if (nextPageCursor) {
         const nextPage = currentPage + 1;
         const updatedCache = new Map(cursorsCache);
@@ -112,7 +110,6 @@ export default function SearchPage() {
         setCursorsCache(updatedCache);
       }
 
-      // If we have a prev cursor, store it in our cache for the previous page
       if (prevPageCursor && currentPage > 1) {
         const prevPage = currentPage - 1;
         const updatedCache = new Map(cursorsCache);
@@ -189,12 +186,10 @@ export default function SearchPage() {
   const handlePageChange = async (page: number) => {
     console.log(`Changing to page ${page}`);
 
-    // Don't do anything if we're already on this page
     if (page === currentPage) return;
 
     setIsLoading(true);
 
-    // If we have the cursor for this page in our cache, use it directly
     if (cursorsCache.has(page)) {
       const cursor = cursorsCache.get(page);
       setCurrentPage(page);
@@ -244,7 +239,6 @@ export default function SearchPage() {
 
     // Now navigate to subsequent pages and build up our cursor cache
     for (let i = 2; i <= page; i++) {
-      // If we already have the cursor for the current target page, use it
       if (nextCursor) {
         // Store this cursor for this page
         const updatedCache = new Map(cursorsCache);
@@ -297,21 +291,16 @@ export default function SearchPage() {
     if (newSize === resultsPerPage) return;
 
     setIsLoading(true);
-
-    // Reset pagination state
     setCurrentPage(1);
     setNextCursor(undefined);
     setPrevCursor(undefined);
 
-    // Reset the cursor cache
     const newCache = new Map<number, string | undefined>();
     newCache.set(1, undefined);
     setCursorsCache(newCache);
 
-    // Update the results per page
     setResultsPerPage(newSize);
 
-    // Fetch dogs with the new size
     fetchDogs(undefined, newSize);
   };
 
@@ -444,7 +433,7 @@ export default function SearchPage() {
                   ))}
                 </div>
 
-                {/* # results controller */}
+                {/* # of results controller */}
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center">
                     <span className="text-sm text-gray-600 mr-2">Results per page:</span>
