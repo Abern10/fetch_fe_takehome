@@ -16,7 +16,6 @@ const API_BASE_URL = 'https://frontend-take-home-service.fetch.com';
 // Function to handle fetch errors
 const handleResponse = async (response: Response) => {
     if (!response.ok) {
-        // Try to parse the error message
         try {
             const errorData = await response.json();
             console.error('API Error Response:', {
@@ -55,7 +54,6 @@ export const login = async (loginData: LoginRequest): Promise<void> => {
         });
 
         if (!response.ok) {
-            // Try to parse error message from the response
             const errorData = await response.json().catch(() => ({}));
             throw new Error(errorData.message || `Login failed with status: ${response.status}`);
         }
@@ -182,7 +180,6 @@ export const extractCursor = (nextUrl: string | undefined): string | undefined =
     if (!nextUrl) return undefined;
 
     try {
-        // Parse the URL to get the "from" parameter
         const urlParams = new URLSearchParams(nextUrl.split('?')[1]);
         return urlParams.get('from') || undefined;
     } catch (e) {
