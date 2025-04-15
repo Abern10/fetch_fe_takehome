@@ -87,7 +87,7 @@ export default function SearchPage() {
         ageMax,
         size: effectiveSize,
         from: cursor,
-        sort: `breed:${sortOrder}`,
+        sort: `breed:${sortOrder || 'asc'}`,
       };
 
       // Search for dog IDs
